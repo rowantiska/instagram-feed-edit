@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const app = express();
-const sharp = require('sharp')
 
 app.use(cors());
 app.use(express.json());
@@ -59,6 +58,15 @@ app.get('/instagramdata/:user', async (req, res) => {
 
         const responseTwo = await fetch(`https://www.instagram.com/graphql/query/?query_id=9957820854288654&user_id=${userId}&include_chaining=false&include_reel=true&include_suggested_users=false&include_logged_out_extras=true&include_live_status=false&include_highlight_reels=true`)
         const dataHighlights = await responseTwo.json()
+        var highLights = dataHighlights.data.user.edge_highlight_reels.edges
+        if(highLights.length > 0){
+        var encodedHighlightCoversAll = []
+        for(let i = 0; i < highLights.length; i++){
+            const highLightCover = highLights[i].node.cover_media.thumbnail_src
+            encodedHighlightCoversAll.push(await encodeImage(highLightCover))
+        }
+        data.data.user.encodedHighlightCovers = encodedHighlightCoversAll;
+        }
         res.status(200).send({data, dataHighlights});
     } catch (e) {
         console.error('Error: '+ e);

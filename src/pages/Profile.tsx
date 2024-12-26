@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import { Header } from '../comps/Header';
 import { Alter } from '../comps/Alter';
+import { AllHeader } from '../comps/AllHeader';
 import { InstagramUser } from '../comps/types';
-import Logo from '../static/instagram_logo.png';
 import LoadingLogo from '../static/instagram_loading_logo.png';
 import { useLocation } from 'react-router-dom';
-
 
 function Profile() {
     const location = useLocation();
@@ -45,15 +44,7 @@ function Profile() {
 
     return (
     <div>
-        <div>
-            <div className='flex justify-center'>
-                <div className='w-full'>
-                    <img className='w-[126px] m-2' src={Logo}></img>
-                </div>
-            </div>
-                <hr className='border border-[#363636] border-[.5px]'></hr>
-            </div>
-
+            <AllHeader/>
             {instagramData && <Header data={instagramData}/>}
             {instagramData && <Alter data={instagramData}/>}
         </div>

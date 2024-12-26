@@ -4,6 +4,7 @@ full_name: string;
 profile_pic_url: string;
 profileEncoded: string;
 coversEncodedAll: [];
+encodedHighlightCovers: [];
 edge_follow: {
     count: number;
 }

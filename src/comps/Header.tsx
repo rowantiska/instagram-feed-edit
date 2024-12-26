@@ -54,8 +54,8 @@ return(
       {data?.edge_highlight_reels.edges.map((highlight, index) => (
             <div key={index} className="">
                 <div className="md:w-[78px] w-[56px] mr-8">
-                  <div className="md:w-[78px] md:h-[78px] w-[56px] h-[56px] rounded-full object-cover border border-[#363636]">
-                    <img className="object-fill" src = {highlight.node.cover_media}></img>
+                  <div className="md:w-[78px] md:h-[78px] w-[56px] h-[56px] rounded-full object-cover border border-[#363636] flex items-center justify-center">
+                    <img className="rounded-full md:w-[71px] md:h-[71px] w-[51px] h-[51px]" src = {data?.encodedHighlightCovers[index]}></img>
                   </div>
                   <p className="flex justify-center text-[13px] mt-2 font-semibold">{highlight.node.title}</p>
                 </div>

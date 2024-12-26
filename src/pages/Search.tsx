@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
-import Logo from '../static/instagram_logo.png';
-import LoadingLogo from '../static/instagram_loading_logo.png'
+import { AllHeader } from '../comps/AllHeader';
+import LoadingLogo from '../static/instagram_loading_logo.png';
 import { Link } from 'react-router-dom';
-
 
 function Search() {
     const [user, setUser] = useState("") // Get ursername from url 
@@ -29,13 +28,8 @@ return <div>
 
     return (
     <div>
-        <div>
-            <div className='flex'>
-                <img className='w-[126px] m-2' src={Logo}></img>
-            </div>
-                <hr className='border border-[#363636] border-[.5px]'></hr>
-            </div>
-
+            <AllHeader/>
+            
             <div className='flex items-center justify-center h-[75vh] m-6'>
                 <div>
                     <p className='text-2xl font-semibold'>Search a profile</p>

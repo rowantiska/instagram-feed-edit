@@ -98,15 +98,6 @@ return(
                             </div>
                         </div>
 
-                        <div>
-                        <hr className='border-[.5px] border-[#363636] m-2 ml-0 mb-2'></hr>
-                            <div>
-                                <p className='text-sm mt-6'>Push changed made to profile screen</p>
-                                <button className='text-sm font-semibold p-2.5 w-full bg-[#363636] rounded-md m-2 ml-0' onClick={removePost}>Confirm edits</button>
-                            </div>
-                        </div>
-
-
                     </div>
                     <div className="w-full md:w-4/5 overflow-scroll md:ml-[20%]  flex flex-wrap justify-center md:mt-10 mt-4" key={forceUpdate}>
                             {allpictureData.map((post, index) => (
