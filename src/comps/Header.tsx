@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { FiMoreHorizontal, FiPlus, FiGrid, FiUserCheck } from "react-icons/fi";
 import { InstagramUser } from './types';
 
@@ -6,6 +7,32 @@ interface HeaderProps{
 }
 
 export const Header: React.FC<HeaderProps> = ({data}) => {
+  const [pfp, setPfp] = useState("");
+  const [newPfp, setNewpfp] = useState("");
+  const [showChange, setShowchange] = useState(false);
+  const [currentPfp, setCurrentPfp] = useState(data?.profileEncoded);
+
+
+  const openChangePfp = () => {
+    setShowchange(!showChange)
+  }
+      
+  const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files && files[0]) {
+        const data = new FileReader();
+        data.addEventListener('load', () => {
+            if (typeof data.result === 'string') {
+              setNewpfp(data.result);
+            }
+        });
+        data.readAsDataURL(files[0]);
+    }
+};
+
+  const changePfp = () => {
+    setCurrentPfp(newPfp)
+  }
 
 return(
   <div>
@@ -14,7 +41,21 @@ return(
     <div className="md:w-1/2 w-full">
       <div className="flex w-full mt-4 md:mt-10">
         <div className="w-1/4 md:mt-5 mt-0">
-          <img className="rounded-full md:min-w-[154px] md:min-h-[154px] w-20 h-20 object-cover md:ml-0 ml-4" src = {data?.profileEncoded}></img>
+          <img className="rounded-full md:min-w-[154px] md:min-h-[154px] w-20 h-20 object-cover md:ml-0 ml-4 cursor-pointer" onClick={openChangePfp} src = {currentPfp}></img>
+        {showChange && (
+          <div className="mt-1 absolute bg-[#000] p-2.5 rounded-md border border-[#363636]">
+              <form>
+                  <input
+                      type="file" onChange={handleImage}
+                      className="mt-2 block w-full text-sm text-slate-500
+                          file:mr-4 file:py-2 file:px-2 file:rounded-md
+                          file:border-0 file:text-xs file:font-semibold
+                          file:bg-[#0095F6] file:text-[#ffffff] file:cursor-pointer"
+                  />
+              </form>
+              <button className='text-xs font-semibold p-2 w-full bg-[#363636] rounded-md m-2 ml-0' onClick={changePfp}>Set profile picture</button>
+          </div>
+          )}
         </div>
 
         <div className="w-3/4 md:ml-20 ml-4">
