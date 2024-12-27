@@ -14,3 +14,9 @@ body{
   color: #ffffff;
   letter-spacing: .15px;
 }
+input:focus,
+select:focus,
+textarea:focus,
+button:focus {
+    outline: none;
+}

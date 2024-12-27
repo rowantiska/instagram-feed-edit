@@ -5,14 +5,15 @@ import { AllHeader } from '../comps/AllHeader';
 import { InstagramUser } from '../comps/types';
 import LoadingLogo from '../static/instagram_loading_logo.png';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function Profile() {
     const location = useLocation();
     const searchData = location.state; 
     const username = searchData.user;
     const [instagramData, setInstagramData] = useState<InstagramUser | null>(null);
-
     const [loading, setLoading] = useState(true)
+    const navigate = useNavigate()
 
     useEffect(() => {
     const getData = async () => {
@@ -24,8 +25,10 @@ function Profile() {
                 ...result.data.data.user, // Include user data
                 ...result.dataHighlights.data.user // Include dataHighlights
             });
-        } catch (e) {
+        } catch (e: any) {
+            setLoading(false)
             console.log("Error fetching data: "+e)
+            navigate("/")
         }
     };
     getData();

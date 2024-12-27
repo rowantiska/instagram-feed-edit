@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { InstagramUser } from './types';
 import { Posts } from './Posts';
+import { FiX } from "react-icons/fi";
 
 interface HeaderProps{
     data?: InstagramUser;
@@ -67,12 +68,12 @@ return(
     {model &&
         <div>
             <div className='w-full h-auto bg-[#000] z-10 fixed top-0 bottom-0 right-0 left-0 overflow-scroll pb-10'>
-            <button className='absolute top-3 right-6' onClick={toggleModel}>Close</button>
+            <button className='absolute top-3 right-3 text-2xl' onClick={toggleModel}><FiX/></button>
                 <div className='md:flex block'>
-                    <div className='md:w-1/5 md:fixed w-full md:p-10 p-6 border-[#363636] border-r-[.5px]'>
-                    <p className='text-2xl mb-6'>Feed editor</p>
+                    <div className='md:w-1/5 md:fixed w-full md:p-10 p-6 pt-0 border-[#363636] border-r-[.5px]'>
+                    <p className='text-2xl mt-4 mb-0'>Feed editor</p>
                     <div>
-                        <p className='text-[#A8A8A8]'>ADD</p>
+                        <p className='text-[#A8A8A8] mt-4'>ADD</p>
                         <hr className='border-[.5px] border-[#363636] m-2 ml-0 mb-4'></hr>
                             <div>
                                 <form>
@@ -90,7 +91,7 @@ return(
 
 
                         <div>
-                        <p className='text-[#A8A8A8] mt-6'>REMOVE</p>
+                        <p className='text-[#A8A8A8] mt-2'>REMOVE</p>
                         <hr className='border-[.5px] border-[#363636] m-2 ml-0 mb-2'></hr>
                             <div>
                                 <p className='text-sm'>Click a post to remove and then click 'remove'</p>
@@ -99,10 +100,10 @@ return(
                         </div>
 
                     </div>
-                    <div className="w-full md:w-4/5 overflow-scroll md:ml-[20%]  flex flex-wrap justify-center md:mt-10 mt-4" key={forceUpdate}>
+                    <div className="w-full md:w-4/5 overflow-scroll md:ml-[20%] flex flex-wrap justify-center md:mt-10 mt-0" key={forceUpdate}>
                             {allpictureData.map((post, index) => (
                                     <div key={index} onClick={toggleImg(index)} className='cursor-pointer'>
-                                        <img className="md:w-72 md:h-72 w-40 h-40 object-cover m-1.5" src={post} ></img>
+                                        <img className="md:w-80 md:h-80 w-48 h-48 object-cover m-1.5" src={post} ></img>
                                     </div>
                             ))}
                     </div>
