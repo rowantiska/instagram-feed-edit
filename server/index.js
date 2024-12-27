@@ -6,6 +6,7 @@ app.use(cors());
 app.use(express.json());
 
 PORT = 1234;
+const errorMessage = {"error message": "400 error with server / username"}
 
 const encodeImage = async (imageUrl) => {
     try {
@@ -47,7 +48,7 @@ app.get('/instagramdata/:user', async (req, res) => {
         const userId = data.data.user.id
         if (imageUrl) {
             var postCoversAll = []
-            for(let i = 0; i< (data.data.user.edge_owner_to_timeline_media.edges).length; i++){
+            for(let i = 0; i< 12; i++){
                 const postCover = data.data.user.edge_owner_to_timeline_media.edges[i].node.thumbnail_src
                 postCoversAll.push(await encodeImage(postCover))           
             }
@@ -69,6 +70,7 @@ app.get('/instagramdata/:user', async (req, res) => {
         }
         res.status(200).send({data, dataHighlights});
     } catch (e) {
+        res.status(400).send(errorMessage)
         console.error('Error: '+ e);
     }
 });
