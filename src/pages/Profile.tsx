@@ -13,6 +13,7 @@ function Profile() {
     const username = searchData.user;
     const [instagramData, setInstagramData] = useState<InstagramUser | null>(null);
     const [loading, setLoading] = useState(true);
+    const [isPrivate, setisPrivate] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -21,10 +22,15 @@ function Profile() {
             const response = await fetch('http://localhost:1234/instagramdata/'+username) 
             const result = await response.json();
             setLoading(false);
-            setInstagramData({
-                ...result.data.data.user,
-                ...result.dataHighlights.data.user
-            });
+            if(result.data.data.user.is_private == true){
+                setisPrivate(true)
+            }
+            else{
+                setInstagramData({
+                    ...result.data.data.user,
+                    ...result.dataHighlights.data.user
+                });
+            }
         } catch (e: any) {
             setLoading(false);
             console.log("Error fetching data: "+e);
@@ -39,7 +45,7 @@ function Profile() {
         <div className='flex justify-center items-center h-screen'>
                 <div>
                     <img className='w-40' src = {LoadingLogo}></img>
-                    <p className='text-center text-lg'>Encoding posts...</p>
+                    <p className='text-center text-sm mt-4'>Encoding posts...</p>
                 </div>
             <p className='absolute bottom-10 text-sm'>No affiliation with meta or instagram. Privately made for public use</p>
             </div>
@@ -51,6 +57,12 @@ function Profile() {
             <AllHeader/>
             {instagramData && <Header data={instagramData}/>}
             {instagramData && <Alter data={instagramData}/>}
+
+        {isPrivate && (
+            <div>
+                    <p className='text-center text-sm mt-24'>Prifile is private, try another username</p>
+            </div>
+        )}
         </div>
     )
     }

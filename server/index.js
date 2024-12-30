@@ -75,11 +75,11 @@ app.get('/instagramdata/:user', async (req, res) => {
         const data = await response.json();
         const imageUrl = data.data.user.profile_pic_url_hd;
         const userId = data.data.user.id;
+        var postCoversAll = []
         if (imageUrl) {
-            var postCoversAll = []
             for(let i = 0; i< (data.data.user.edge_owner_to_timeline_media.edges).length; i++){
                 const postCover = data.data.user.edge_owner_to_timeline_media.edges[i].node.thumbnail_src;
-                postCoversAll.push(await encodeImage(postCover));
+                postCoversAll.push(await imageToNewURL(postCover));
             }
             data.data.user.coversEncodedAll = postCoversAll;
             const base64Image = await encodeImage(imageUrl);
@@ -93,7 +93,7 @@ app.get('/instagramdata/:user', async (req, res) => {
         var encodedHighlightCoversAll = [];
         for(let i = 0; i < highLights.length; i++){
             const highLightCover = highLights[i].node.cover_media.thumbnail_src;
-            encodedHighlightCoversAll.push(await imageToNewURL(highLightCover));
+            encodedHighlightCoversAll.push(await encodeImage(highLightCover));
         }
         data.data.user.encodedHighlightCovers = encodedHighlightCoversAll;
         }

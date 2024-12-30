@@ -1,6 +1,7 @@
 export interface InstagramUser {
 username: string;
 full_name: string;
+is_private: boolean;
 profile_pic_url: string;
 profileEncoded: string;
 coversEncodedAll: [];
