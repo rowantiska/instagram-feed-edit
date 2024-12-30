@@ -1,18 +1,20 @@
 const express = require('express');
 const cors = require('cors');
+const cloudinary = require('cloudinary').v2;
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
 PORT = 1234;
-const errorMessage = {"error message": "400 error with server / username"}
+const errorMessage = {"error message": "400 error with server"};
 
+//encoding func
 const encodeImage = async (imageUrl) => {
     try {
         const response = await fetch(imageUrl, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36',
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36'
             },
         });
         const arrayBuffer = await response.arrayBuffer();
@@ -23,6 +25,33 @@ const encodeImage = async (imageUrl) => {
     }
 };
 
+//upload instagram private url to new URL in "cloudinary"
+const imageToNewURL = async (imageURL) => {
+    cloudinary.config({ 
+        cloud_name: 'dnthktaqa', 
+        api_key: '752333568317677', 
+        api_secret: 'wWDBedQCkQGu4-kyCOLrz5kZgzk',
+    });
+    //getting unique ID for every post so not uploaded everytime to cloudinary
+    const splitURL  = imageURL.split("/t51.29350-15/");
+    const postID = splitURL[1];
+    console.log("Uploading image with ID: "+  String((postID)).substring(0,9))
+    try {
+        const uploadResult = await cloudinary.uploader.upload(imageURL, {
+            public_id: String((postID)).substring(0,9),
+            use_filename: false,
+            overwrite: false,
+            width: 400,
+            height: 400,
+            
+        });
+        return uploadResult.url;
+    } catch (error) {
+        console.log("Upload error: "+error);
+    }
+};
+
+//get data from instagram.com
 app.get('/instagramdata/:user', async (req, res) => {
     try {
         const userName = req.params.user;
@@ -43,34 +72,34 @@ app.get('/instagramdata/:user', async (req, res) => {
                 'x-web-session-id': 'y5ya36:zd0416:shr3r8'
             },
         });
-        const data = await response.json()
-        const imageUrl = data.data.user.profile_pic_url_hd
-        const userId = data.data.user.id
+        const data = await response.json();
+        const imageUrl = data.data.user.profile_pic_url_hd;
+        const userId = data.data.user.id;
         if (imageUrl) {
             var postCoversAll = []
-            for(let i = 0; i< 12; i++){
-                const postCover = data.data.user.edge_owner_to_timeline_media.edges[i].node.thumbnail_src
-                postCoversAll.push(await encodeImage(postCover))           
+            for(let i = 0; i< (data.data.user.edge_owner_to_timeline_media.edges).length; i++){
+                const postCover = data.data.user.edge_owner_to_timeline_media.edges[i].node.thumbnail_src;
+                postCoversAll.push(await encodeImage(postCover));
             }
             data.data.user.coversEncodedAll = postCoversAll;
             const base64Image = await encodeImage(imageUrl);
             data.data.user.profileEncoded = base64Image; 
         }
-
+        
         const responseTwo = await fetch(`https://www.instagram.com/graphql/query/?query_id=9957820854288654&user_id=${userId}&include_chaining=false&include_reel=true&include_suggested_users=false&include_logged_out_extras=true&include_live_status=false&include_highlight_reels=true`)
-        const dataHighlights = await responseTwo.json()
-        var highLights = dataHighlights.data.user.edge_highlight_reels.edges
+        const dataHighlights = await responseTwo.json();
+        var highLights = dataHighlights.data.user.edge_highlight_reels.edges;
         if(highLights.length > 0){
-        var encodedHighlightCoversAll = []
+        var encodedHighlightCoversAll = [];
         for(let i = 0; i < highLights.length; i++){
-            const highLightCover = highLights[i].node.cover_media.thumbnail_src
-            encodedHighlightCoversAll.push(await encodeImage(highLightCover))
+            const highLightCover = highLights[i].node.cover_media.thumbnail_src;
+            encodedHighlightCoversAll.push(await imageToNewURL(highLightCover));
         }
         data.data.user.encodedHighlightCovers = encodedHighlightCoversAll;
         }
         res.status(200).send({data, dataHighlights});
     } catch (e) {
-        res.status(400).send(errorMessage)
+        res.status(400).send(errorMessage);
         console.error('Error: '+ e);
     }
 });

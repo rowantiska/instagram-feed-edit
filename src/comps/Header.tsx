@@ -7,14 +7,13 @@ interface HeaderProps{
 }
 
 export const Header: React.FC<HeaderProps> = ({data}) => {
-  const [pfp, setPfp] = useState("");
   const [newPfp, setNewpfp] = useState("");
   const [showChange, setShowchange] = useState(false);
   const [currentPfp, setCurrentPfp] = useState(data?.profileEncoded);
 
 
   const openChangePfp = () => {
-    setShowchange(!showChange)
+    setShowchange(!showChange);
   }
       
   const handleImage = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,12 +30,11 @@ export const Header: React.FC<HeaderProps> = ({data}) => {
 };
 
   const changePfp = () => {
-    setCurrentPfp(newPfp)
+    setCurrentPfp(newPfp);
   }
 
 return(
   <div>
-
   <div className="flex justify-center w-full">
     <div className="md:w-1/2 w-full">
       <div className="flex w-full mt-4 md:mt-10">
@@ -58,7 +56,7 @@ return(
           )}
         </div>
 
-        <div className="w-3/4 md:ml-20 ml-4">
+        <div className="w-3/5 md:ml-20 ml-4">
         <div className="md:flex block items-center">
           <div className="md:block flex items-center">
             <p className="md:text-[22px] text-[20px]">{data?.username}</p>
@@ -85,7 +83,7 @@ return(
 
       <div className="mt-0 md:hidden block ml-2">
           <p className="text-[16px] font-semibold">{data?.full_name}</p>
-          <button className="p-[8px] pt-0 pb-0 text-[13px] rounded-full bg-[#363636] flex items-center mt-1.5"><span className="text-[16px] mr-1">@</span>rowantiska</button>
+          <button className="p-[8px] pt-0 pb-0 text-[13px] rounded-full bg-[#363636] flex items-center mt-1.5"><span className="text-[16px] mr-1">@</span>{data?.username}</button>
           <p className="text-[16px] mt-1.5">{data?.biography_with_entities.raw_text}</p>
       </div>
 
@@ -145,8 +143,6 @@ return(
 
     </div>
   </div>
-
-
   </div>
 );
 };

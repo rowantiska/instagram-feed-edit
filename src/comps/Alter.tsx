@@ -8,18 +8,15 @@ interface HeaderProps{
 }
 
 export const Alter: React.FC<HeaderProps> = ({data}) => {
-    const [model, setModel] = useState(false)
+    const [model, setModel] = useState(false);
     const [file, setFile] = useState("");
     const [forceUpdate, setforceUpdate] = useState(0);
     const [activeImgIndex, setActiveImgIndex] = useState(0);
     const [allpictureData, setAllpictureData] = useState<string[]>([]); // This needs to be sent to posts component
 
-
-      
     useEffect(() => {
         const setAllPics = () => {
-            setAllpictureData(data?.coversEncodedAll || [])
-            console.log(allpictureData.length)
+            setAllpictureData(data?.coversEncodedAll || []);
         }
         setAllPics();
         }, []);
@@ -43,7 +40,6 @@ export const Alter: React.FC<HeaderProps> = ({data}) => {
 
     const toggleImg = (imgIndex: any) => (event: React.MouseEvent<HTMLDivElement>): void => {
         setActiveImgIndex(imgIndex);
-        console.log(activeImgIndex)
     }
 
     const removePost = () => {
@@ -89,7 +85,6 @@ return(
                             </div>
                         </div>
 
-
                         <div>
                         <p className='text-[#A8A8A8] mt-2'>REMOVE</p>
                         <hr className='border-[.5px] border-[#363636] m-2 ml-0 mb-2'></hr>
@@ -103,7 +98,7 @@ return(
                     <div className="w-full md:w-4/5 overflow-scroll md:ml-[20%] flex flex-wrap justify-center md:mt-10 mt-0" key={forceUpdate}>
                             {allpictureData.map((post, index) => (
                                     <div key={index} onClick={toggleImg(index)} className='cursor-pointer'>
-                                        <img className="md:w-80 md:h-80 w-48 h-48 object-cover m-1.5" src={post} ></img>
+                                        <img className="md:w-80 md:h-80 w-44 h-44 object-cover m-1.5" src={post} ></img>
                                     </div>
                             ))}
                     </div>

@@ -42,6 +42,5 @@ edge_highlight_reels:{
     }
   ]
 };
-
 }
 

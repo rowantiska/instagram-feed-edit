@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { FiArrowRight } from "react-icons/fi";
 
 function Search() {
-    const [user, setUser] = useState("") // Get ursername from url 
-    const [loading, setLoading] = useState(true)
+    const [user, setUser] = useState("");
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
 
     useEffect(() => {
-        setLoading(false)
+        setLoading(false);
     }, []);
 
     const getUsername = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,7 +19,7 @@ function Search() {
 
     const navToProfile = () => {
         if(user.length != 0){
-            navigate('/profile?'+user, { state: {user} })
+            navigate('/profile?'+user, { state: {user} });
         }
     }
 
@@ -36,8 +36,7 @@ return <div>
 
     return (
     <div>
-            <AllHeader/>
-            
+        <AllHeader/>
             <div className='flex items-center justify-center h-[75vh] m-6'>
                 <div>
                     <p className='text-2xl font-semibold'>Alter feed</p>
@@ -47,7 +46,6 @@ return <div>
                         <button className="w-32 text-[16px] font-semibold p-4 pt-0 pb-0 h-10 bg-[#0095F6] rounded-md mt-2 flex items-center" onClick={navToProfile}>Search <span className='text-xl ml-1'><FiArrowRight/></span></button>
                 </div>
             </div>
-
         </div>
     )
     }

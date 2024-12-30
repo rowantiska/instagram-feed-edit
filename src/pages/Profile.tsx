@@ -12,23 +12,23 @@ function Profile() {
     const searchData = location.state; 
     const username = searchData.user;
     const [instagramData, setInstagramData] = useState<InstagramUser | null>(null);
-    const [loading, setLoading] = useState(true)
-    const navigate = useNavigate()
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
     useEffect(() => {
     const getData = async () => {
         try {
             const response = await fetch('http://localhost:1234/instagramdata/'+username) 
             const result = await response.json();
-            setLoading(false)
+            setLoading(false);
             setInstagramData({
-                ...result.data.data.user, // Include user data
-                ...result.dataHighlights.data.user // Include dataHighlights
+                ...result.data.data.user,
+                ...result.dataHighlights.data.user
             });
         } catch (e: any) {
-            setLoading(false)
-            console.log("Error fetching data: "+e)
-            navigate("/")
+            setLoading(false);
+            console.log("Error fetching data: "+e);
+            navigate("/");
         }
     };
     getData();
@@ -39,6 +39,7 @@ function Profile() {
         <div className='flex justify-center items-center h-screen'>
                 <div>
                     <img className='w-40' src = {LoadingLogo}></img>
+                    <p className='text-center text-lg'>Encoding posts...</p>
                 </div>
             <p className='absolute bottom-10 text-sm'>No affiliation with meta or instagram. Privately made for public use</p>
             </div>
