@@ -28,9 +28,9 @@ const encodeImage = async (imageUrl) => {
 //upload instagram private url to new URL in "cloudinary"
 const imageToNewURL = async (imageURL) => {
     cloudinary.config({ 
-        cloud_name: 'dnthktaqa', 
-        api_key: '752333568317677', 
-        api_secret: 'wWDBedQCkQGu4-kyCOLrz5kZgzk',
+        cloud_name: '', 
+        api_key: '', 
+        api_secret: '',
     });
     //getting unique ID for every post so not uploaded everytime to cloudinary
     const splitURL  = imageURL.split("/t51.29350-15/");
